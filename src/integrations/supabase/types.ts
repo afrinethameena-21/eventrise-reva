@@ -14,7 +14,219 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      attendance: {
+        Row: {
+          event_id: string | null
+          id: string
+          marked_at: string | null
+          marked_by: string | null
+          student_id: string | null
+        }
+        Insert: {
+          event_id?: string | null
+          id?: string
+          marked_at?: string | null
+          marked_by?: string | null
+          student_id?: string | null
+        }
+        Update: {
+          event_id?: string | null
+          id?: string
+          marked_at?: string | null
+          marked_by?: string | null
+          student_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendance_marked_by_fkey"
+            columns: ["marked_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendance_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          created_at: string | null
+          created_by: string
+          date: string
+          description: string | null
+          id: string
+          location: string | null
+          max_capacity: number | null
+          status: Database["public"]["Enums"]["event_status"] | null
+          title: string
+          type: Database["public"]["Enums"]["event_type"]
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by: string
+          date: string
+          description?: string | null
+          id?: string
+          location?: string | null
+          max_capacity?: number | null
+          status?: Database["public"]["Enums"]["event_status"] | null
+          title: string
+          type: Database["public"]["Enums"]["event_type"]
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string
+          date?: string
+          description?: string | null
+          id?: string
+          location?: string | null
+          max_capacity?: number | null
+          status?: Database["public"]["Enums"]["event_status"] | null
+          title?: string
+          type?: Database["public"]["Enums"]["event_type"]
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feedback: {
+        Row: {
+          comment: string | null
+          event_id: string | null
+          id: string
+          rating: number | null
+          student_id: string | null
+          submitted_at: string | null
+        }
+        Insert: {
+          comment?: string | null
+          event_id?: string | null
+          id?: string
+          rating?: number | null
+          student_id?: string | null
+          submitted_at?: string | null
+        }
+        Update: {
+          comment?: string | null
+          event_id?: string | null
+          id?: string
+          rating?: number | null
+          student_id?: string | null
+          submitted_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feedback_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "feedback_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          college_name: string | null
+          created_at: string | null
+          email: string
+          id: string
+          name: string
+          phone: string | null
+          qr_code: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          srn: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          college_name?: string | null
+          created_at?: string | null
+          email: string
+          id: string
+          name: string
+          phone?: string | null
+          qr_code?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          srn?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          college_name?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          qr_code?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          srn?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      registrations: {
+        Row: {
+          event_id: string | null
+          id: string
+          registered_at: string | null
+          student_id: string | null
+        }
+        Insert: {
+          event_id?: string | null
+          id?: string
+          registered_at?: string | null
+          student_id?: string | null
+        }
+        Update: {
+          event_id?: string | null
+          id?: string
+          registered_at?: string | null
+          student_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "registrations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "registrations_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +235,15 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      event_status: "active" | "cancelled" | "completed"
+      event_type:
+        | "hackathon"
+        | "workshop"
+        | "fest"
+        | "seminar"
+        | "conference"
+        | "competition"
+      user_role: "admin" | "student"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +370,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      event_status: ["active", "cancelled", "completed"],
+      event_type: [
+        "hackathon",
+        "workshop",
+        "fest",
+        "seminar",
+        "conference",
+        "competition",
+      ],
+      user_role: ["admin", "student"],
+    },
   },
 } as const
