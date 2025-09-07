@@ -27,7 +27,7 @@ import { useFeedback } from "@/hooks/useFeedback";
 import { useAuth } from "@/contexts/AuthContext";
 import UserProfile from "@/components/UserProfile";
 import StudentProfile from "@/components/StudentProfile";
-import QuerySystem from "@/components/QuerySystem";
+// import QuerySystem from "@/components/QuerySystem";
 import FeedbackModal from "@/components/FeedbackModal";
 import { format, isAfter, isBefore } from "date-fns";
 
@@ -333,7 +333,10 @@ const StudentDashboard = () => {
           </TabsContent>
 
           <TabsContent value="queries" className="space-y-6">
-            <QuerySystem />
+            <div className="p-6">
+              <h3 className="text-lg font-medium mb-4">Coming Soon</h3>
+              <p className="text-muted-foreground">Q&A System will be available soon.</p>
+            </div>
           </TabsContent>
         </Tabs>
       </div>
