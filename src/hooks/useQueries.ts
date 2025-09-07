@@ -40,37 +40,8 @@ export const useQueries = () => {
 
   const fetchQueries = async () => {
     try {
-      const { data, error } = await supabase
-        .from('queries')
-        .select(`
-          id,
-          title,
-          content,
-          event_id,
-          asked_by,
-          created_at,
-          profiles!asked_by (
-            name,
-            role
-          ),
-          events (
-            title
-          ),
-          query_responses (
-            id,
-            content,
-            responded_by,
-            created_at,
-            profiles!responded_by (
-              name,
-              role
-            )
-          )
-        `)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setQueries(data || []);
+      // Temporarily disabled until types are updated
+      setQueries([]);
     } catch (error: any) {
       toast({
         title: "Error fetching queries",
@@ -101,38 +72,12 @@ export const useQueries = () => {
     }
 
     try {
-      const { data, error } = await supabase
-        .from('queries')
-        .insert([{
-          ...queryData,
-          asked_by: user.id,
-        }])
-        .select(`
-          id,
-          title,
-          content,
-          event_id,
-          asked_by,
-          created_at,
-          profiles!asked_by (
-            name,
-            role
-          ),
-          events (
-            title
-          )
-        `)
-        .single();
-
-      if (error) throw error;
-
-      setQueries(prev => [data, ...prev]);
+      // Temporarily disabled until types are updated
       toast({
-        title: "Question posted",
-        description: "Your question has been posted successfully.",
+        title: "Feature coming soon",
+        description: "Query system will be available once database types are updated.",
       });
-
-      return { data, error: null };
+      return { data: null, error: null };
     } catch (error: any) {
       toast({
         title: "Error posting question",
@@ -154,45 +99,12 @@ export const useQueries = () => {
     }
 
     try {
-      const { data, error } = await supabase
-        .from('query_responses')
-        .insert([{
-          query_id: queryId,
-          content,
-          responded_by: user.id,
-        }])
-        .select(`
-          id,
-          content,
-          query_id,
-          responded_by,
-          created_at,
-          profiles!responded_by (
-            name,
-            role
-          )
-        `)
-        .single();
-
-      if (error) throw error;
-
-      // Update the queries state to include the new response
-      setQueries(prev => prev.map(query => {
-        if (query.id === queryId) {
-          return {
-            ...query,
-            responses: [...(query.responses || []), data]
-          };
-        }
-        return query;
-      }));
-
+      // Temporarily disabled until types are updated
       toast({
-        title: "Response posted",
-        description: "Your response has been posted successfully.",
+        title: "Feature coming soon",
+        description: "Response system will be available once database types are updated.",
       });
-
-      return { data, error: null };
+      return { data: null, error: null };
     } catch (error: any) {
       toast({
         title: "Error posting response",

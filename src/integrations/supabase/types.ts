@@ -191,6 +191,76 @@ export type Database = {
         }
         Relationships: []
       }
+      queries: {
+        Row: {
+          asked_by: string
+          content: string
+          created_at: string
+          event_id: string | null
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          asked_by: string
+          content: string
+          created_at?: string
+          event_id?: string | null
+          id?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          asked_by?: string
+          content?: string
+          created_at?: string
+          event_id?: string | null
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "queries_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      query_responses: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          query_id: string
+          responded_by: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          query_id: string
+          responded_by: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          query_id?: string
+          responded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "query_responses_query_id_fkey"
+            columns: ["query_id"]
+            isOneToOne: false
+            referencedRelation: "queries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       registrations: {
         Row: {
           event_id: string | null
